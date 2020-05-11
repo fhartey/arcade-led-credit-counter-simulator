@@ -16,6 +16,9 @@ Pin 2 and pin 3 also currently have a 3 micro second delay. This is incase if a 
 # model numbers for parts used
 
 2 x	7-Segment LED Display mikroBUS Module, 2 Digits (7seg click) | Model Number: MIKROE-1201 
+
 1 x	2x mikroBUS Interface for Arduino (Arduino UNO click shield) | Model Number: MIKROE-1581 
+
 1 X Arduino Uno
+
 For the four push buttons i just wired them to PCB board with four 10k resitors. While also using the 5volt and ground on the arudnio two power them and using the pins 1, 2, 3, and 4 for the buttons.
