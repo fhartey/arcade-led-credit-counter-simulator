@@ -5,8 +5,11 @@ This program is to replicate two credit led counters for an arcade machine. The 
  
 # How it works
 pin 1 one the Arduino increments first credit button by one
+
 pin 4 increments the second credit led by one
+
 pin 2 minuses the first credit led by one
+
 pin 3 minues the second credit led by one
 
 if pin 1 and pin 2 are pushed at the same time resets both led credits to zero
