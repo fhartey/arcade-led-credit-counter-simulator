@@ -4,6 +4,7 @@
 // do this i was using two 7-Segment LED Displays, Arduino UNO click shield
 // Arduino UNO, and 4 push buttons to increment the numbers.
 
+
 // used for 7-Segment LED Display setup
 #define DSI 11 
 #define CLK 13
@@ -13,7 +14,7 @@
 #define PWMP1 6 // for first led PWM 
 
 // hex values to set the 7-Segment LED Display 0-9
-byte DigitValues[10] = {
+byte DigitValues[11] = {
 0x7E, // 0
 0x0A, // 1
 0xB6, // 2
@@ -23,7 +24,8 @@ byte DigitValues[10] = {
 0xFC, // 6
 0x0E, // 7
 0xFE, // 8
-0xCE  // 9
+0xCE,  // 9
+0X1
 };
 
 
@@ -46,6 +48,12 @@ int lastButtonPlusStateP1 = LOW;
 int lastButtonPlusStateP2 = LOW;   
 
 
+int analogPin = A0; 
+int DefaultCreditDelay = 0; // time used for how long credit should be removed when user presses a button 
+int LastAnalogMovStateMinus = 0; // Check how many times it went through;
+int LastAnalogMovStatePlus = 0;
+unsigned long CreditDisplayTimer = 0; // used to when we want to go back to display the credits
+
 unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
 unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
 
@@ -56,6 +64,8 @@ int CreditP2 = 0;
 // use to check for delay for minus button.
 //Incase user wants to taunt instead of minus off an credit
 unsigned long PushTimer = 0; 
+
+bool hey = true;
 
 void setup() {
  Serial.begin(9600);
@@ -77,15 +87,26 @@ void setup() {
   // defualt start up, set credits to zero on launch
   UpdateCredit(LATCHP1,00);
   UpdateCredit(LATCHP2,00);
+
+
+  LastAnalogMovStateMinus = analogRead(analogPin) - 20;
+  LastAnalogMovStatePlus = analogRead(analogPin) + 20;
+  DefaultCreditDelay = analogRead(analogPin);
+
 }
 
 void loop() {
+
+AnalogMovement(analogRead(analogPin));
+
+
+
 
  int readingMinusP1 = digitalRead(buttonMinusP1);
  int readingMinusP2 = digitalRead(buttonMinusP2);
  int readingPlusP1 = digitalRead(buttonPlusP1);
  int readingPlusP2 = digitalRead(buttonPlusP2);
-
+ int readingAnalogMov = analogRead(analogPin);
     // if push button has been hit resets the last lastDebounceTime
   if (readingPlusP2 != lastButtonPlusStateP2 || readingPlusP1 != lastButtonPlusStateP1 ||
       readingMinusP1 != lastButtonStateMinusP1 ||  readingMinusP2 != lastButtonStateMinusP2) {
@@ -109,14 +130,14 @@ void loop() {
 
     if (readingMinusP1 != buttonMinusStateP1) {
       buttonMinusStateP1 = readingMinusP1;
-      ButtonMinus(buttonMinusStateP1, CreditP1, 300);
+      ButtonMinus(buttonMinusStateP1, CreditP1, DefaultCreditDelay);
       UpdateCredit(LATCHP1,CreditP1);
 
     }
 
      if (readingMinusP2 != buttonMinusStateP2) {
       buttonMinusStateP2 = readingMinusP2;
-      ButtonMinus(buttonMinusStateP2, CreditP2, 300);
+      ButtonMinus(buttonMinusStateP2, CreditP2, DefaultCreditDelay);
       UpdateCredit(LATCHP2,CreditP2);
 
      }
@@ -176,7 +197,6 @@ void ButtonPlus(int buttonplus, int &credit){
   // controls LCD value when called sets the new value to the latch
   // that was specified
 void UpdateCredit(int LatchEnter, int num){
-      
       digitalWrite(LatchEnter,LOW);
       int digit1 = num % 10;
       int digit2 = num / 10;
@@ -184,3 +204,69 @@ void UpdateCredit(int LatchEnter, int num){
       shiftOut(DSI,CLK, MSBFIRST,DigitValues[digit2] );
       digitalWrite(LatchEnter,HIGH);
     }
+
+    void UpdateAnalogScreen(int LatchEnter, int num){
+      digitalWrite(LatchEnter,LOW);
+      shiftOut(DSI,CLK, MSBFIRST,DigitValues[num] );
+      shiftOut(DSI,CLK, MSBFIRST,DigitValues[10] );
+      digitalWrite(LatchEnter,HIGH);
+      }
+
+    void AnalogMovement(int _analogmovement){
+
+      // to catch it in infite loop, so we are only switching values when the user pushes on the 
+      // the analog switch
+      if ( _analogmovement < LastAnalogMovStatePlus && _analogmovement > LastAnalogMovStateMinus ){
+
+// come up with your own delay to set counters back to normal here
+      if ( millis() > CreditDisplayTimer){
+        //UpdateCredit(LATCHP1,3);
+       // UpdateCredit(LATCHP2,CreditP2);
+        Serial.print(CreditP1);
+            Serial.print("\n");
+    
+        }
+     
+      }
+
+        else {
+      if (_analogmovement <= 200){
+        DefaultCreditDelay = 0;
+      //  UpdateAnalogScreen(LATCHP1,0);
+     CreditDisplayTimer =   millis() + 2000; 
+
+        }
+        else if (_analogmovement > 200 && _analogmovement <= 400){
+
+        DefaultCreditDelay = 200;
+         //UpdateAnalogScreen(LATCHP1,2);
+              CreditDisplayTimer =   millis() + 2000; 
+     
+          }
+
+            else if (_analogmovement > 400 && _analogmovement <= 600){
+         DefaultCreditDelay = 300;
+         // UpdateAnalogScreen(LATCHP1,3);
+               CreditDisplayTimer =   millis() + 2000; 
+
+          }
+
+            else if (_analogmovement > 600 && _analogmovement <= 800){
+
+         DefaultCreditDelay = 400;
+         // UpdateAnalogScreen(LATCHP1,4);
+               CreditDisplayTimer =   millis() + 2000; 
+
+          }
+
+            else if (_analogmovement > 800 && _analogmovement <= 1023){
+  
+         DefaultCreditDelay = 500;
+         // UpdateAnalogScreen(LATCHP1,5);
+      CreditDisplayTimer =   millis() + 2000; 
+          }
+           LastAnalogMovStateMinus = _analogmovement - 20;
+         LastAnalogMovStatePlus =  _analogmovement + 20;
+        }
+     
+      }
