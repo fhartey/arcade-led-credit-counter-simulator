@@ -4,7 +4,7 @@ This program is to replicate two credit led counters for an arcade machine. The 
 
  
 # How it works
-pin 1 one the Arduino increments first credit button by one
+pin 7  the Arduino increments first credit button by one
 
 pin 4 increments the second credit led by one
 
@@ -12,9 +12,9 @@ pin 2 minuses the first credit led by one
 
 pin 3 minues the second credit led by one
 
-if pin 1 and pin 2 are pushed at the same time resets both led credits to zero
+if pin 7 and pin 2 are pushed at the same time resets both led credits to zero
 
-Pin 2 and pin 3 also currently have a 3 micro second delay. This is incase if a user wants to use the credit button as a taunt. Some old arcade games did this. This way if the user hits the minus credit button under 3 micro seonds it will not take off a credit. However if the user holds the credit button down for over 3 micro seconds they will lose a credit.
+Pin 2 and pin 3 also currently use potentiometer for a micro second delay. This is incase if a user wants to use the credit button as a taunt. Some old arcade games did this. This way if the user hits the minus credit button under say 3 micro seonds it will not take off a credit. However if the user holds the credit button down for over 3 micro seconds they will lose a credit.
 
 A0 pin is for the potentiometer to change through micro seconds. Depending on how high or low it is set to. When the user holds down on the minus credit button, it will take how many micro seconds that are currently set to minus off a credit. 
 
