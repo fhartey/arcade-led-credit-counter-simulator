@@ -52,8 +52,8 @@ const int analogPin = A0;             // pin for analog
 int DefaultCreditDelay = 0;           // time used for how long credit should be removed when user presses a button
 int LastAnalogMovStateMinus = 0;      // gets last movement for analog state
 int LastAnalogMovStatePlus = 0;
-bool AnalogScreenUpdate = true;       //used so we are not constantly calling update method
-unsigned long CreditDisplayTimer = 1 // used for a 3 second timer
+bool AnalogScreenUpdate = false;       //used so we are not constantly calling update method
+unsigned long CreditDisplayTimer = 0; // used for a 3 second timer
 
 unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
 unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
@@ -61,7 +61,6 @@ unsigned long debounceDelay = 50;    // the debounce time; increase if the outpu
 // to keep score of how many credits are used and not used
 int CreditP1 = 0;
 int CreditP2 = 0;
-int hey = 3;
 
 // use to check for delay for minus button.
 //Incase user wants to taunt instead of minus off an credit
@@ -77,6 +76,9 @@ void setup() {
   pinMode(PWMP1, OUTPUT);
   pinMode(PWMP2, OUTPUT);
   pinMode(buttonMinusP1, INPUT);
+  pinMode(buttonMinusP2, INPUT);
+  pinMode(buttonPlusP1, INPUT);
+  pinMode(buttonPlusP2, INPUT);
 
   digitalWrite(PWMP1, HIGH);
   digitalWrite(PWMP2, HIGH);
