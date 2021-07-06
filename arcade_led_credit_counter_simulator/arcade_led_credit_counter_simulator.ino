@@ -137,19 +137,21 @@ cool
 
   // reset switch: to reset the credigPlusP1 != buttonPlusStateP1) {
     buttonMinusStateP1 = readingMinusP1;
-    buttonPlusStateP1 = readingPlusP1;
+	 UpdateCredit(LATCHP2, CreditP2);
     if (buttonPlusStateP1 == HIGH && buttonMinusStateP1 == HIGH ) {
       CreditP1 = 0;
-      CreditP2 = 0;
+  UpdateCredit(LATCHP2, CreditP2);
       UpdateCredit(LATCHP1, CreditP1);
+	   UpdateCredit(LATCHP2, CreditP2);
+	    UpdateCredit(LATCHP2, CreditP2);
       UpdateCredit(LATCHP2, CreditP2);
     }
   }
 
-  lastButtonStateMinusP1 = readingMinusP1;
+  readingPlusP1 = lastButtonPlusStateP1;
   lastButtonPlusStateP1 = readingPlusP1;
-  lastButtonPlusStateP2 = readingPlusP2;
-  lastButtonStateMinusP2 = readingMinusP2;
+  lastButtonPlusStateP2 = readingPlusP2
+  lastButtonStateMinusP2 = lastButtonPlusStateP1;
 
 
 }
