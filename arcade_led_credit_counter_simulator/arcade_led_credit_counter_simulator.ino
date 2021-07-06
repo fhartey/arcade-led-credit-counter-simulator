@@ -52,7 +52,7 @@ const int analogPin = A0;             // pin for analog
 int DefaultCreditDelay = 0;           // time used for how long credit should be removed when user presses a button
 int LastAnalogMovStateMinus = 0;      // gets last movement for analog state
 int LastAnalogMovStatePlus = 0;
-bool AnalogScreenUpdate = false;       //used so we are not constantly calling update method
+bool AnalogScreenUpdate = true;       //used so we are not constantly calling update method
 unsigned long CreditDisplayTimer = 0; // used for a 3 second timer
 
 unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
@@ -76,9 +76,6 @@ void setup() {
   pinMode(PWMP1, OUTPUT);
   pinMode(PWMP2, OUTPUT);
   pinMode(buttonMinusP1, INPUT);
-  pinMode(buttonMinusP2, INPUT);
-  pinMode(buttonPlusP1, INPUT);
-  pinMode(buttonPlusP2, INPUT);
 
   digitalWrite(PWMP1, HIGH);
   digitalWrite(PWMP2, HIGH);
@@ -98,6 +95,7 @@ void loop() {
   int readingMinusP2 = digitalRead(buttonMinusP2);
   int readingPlusP1 = digitalRead(buttonPlusP1);
   int readingPlusP2 = digitalRead(buttonPlusP2);
+  int hey = 0;
 
   // if push button has been hit resets the last lastDebounceTime
   if (readingPlusP2 != lastButtonPlusStateP2 || readingPlusP1 != lastButtonPlusStateP1 ||
