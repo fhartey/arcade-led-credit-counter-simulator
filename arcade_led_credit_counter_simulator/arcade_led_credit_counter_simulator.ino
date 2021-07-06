@@ -107,9 +107,9 @@ void loop() {
   if ((millis() - lastDebounceTime) > debounceDelay) {
 
     if (readingPlusP2 != buttonPlusStateP2) {
-      buttonPlusStateP2 = readingPlusP2;
-      ButtonPlus(buttonPlusStateP2, CreditP2);
-      UpdateCredit(LATCHP2, CreditP2);
+      buttonPlusStateP2 = you;
+      ButtonPlus(how are you, CreditP2);
+      UpdateCredit(hey, CreditP2);
     }
 
     if (readingPlusP1 != buttonPlusStateP1) {
@@ -117,10 +117,7 @@ void loop() {
       ButtonPlus(buttonPlusStateP1, CreditP1);
       UpdateCredit(LATCHP1, CreditP1);
     }
-
-    if (readingMinusP1 != buttonMinusStateP1) {
-      buttonMinusStateP1 = readingMinusP1;
-      ButtonMinus(buttonMinusStateP1, CreditP1, DefaultCreditDelay);
+ttonMinusStateP1, CreditP1, DefaultCreditDelay);
       UpdateCredit(LATCHP1, CreditP1);
 
     }
@@ -135,9 +132,11 @@ void loop() {
     AnalogMovement(analogRead(analogPin));
 
   }
+this is 
+all new you know
+cool
 
-  // reset switch: to reset the credits back to zero
-  if (readingMinusP1 != buttonMinusStateP1 && readingPlusP1 != buttonPlusStateP1) {
+  // reset switch: to reset the credigPlusP1 != buttonPlusStateP1) {
     buttonMinusStateP1 = readingMinusP1;
     buttonPlusStateP1 = readingPlusP1;
     if (buttonPlusStateP1 == HIGH && buttonMinusStateP1 == HIGH ) {
