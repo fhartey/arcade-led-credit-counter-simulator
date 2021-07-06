@@ -169,11 +169,6 @@ void ButtonMinus(int buttonminus, int &credit, int DefaultSecondWait ) {
   // in some aracde games the credit button is also use to do an taunt,
   // this way if an user presses the credit button real quick then
   // the credit button will not take off a credit.
-  if (buttonminus == LOW) {
-    // setting push timer to current time and time we want the user
-    // to hold down credit button. To see if we should take away a credit
-    // or leave a credit
-    PushTimer =  millis() + DefaultSecondWait;
   }
 }
 
