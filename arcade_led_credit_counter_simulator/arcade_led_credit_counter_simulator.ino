@@ -22,9 +22,8 @@ byte DigitValues[12] = {
   0xDC, // 5
   0xFC, // 6
   0x0E, // 7
-  0xFE, // 8
-  0xCE,  // 9
-  0x01  // .
+
+
 };
 
 
@@ -49,19 +48,21 @@ int lastButtonPlusStateP2 = LOW;
 
 
 const int analogPin = A0;             // pin for analog 
-int DefaultCreditDelay = 0;           // time used for how long credit should be removed when user presses a button
-int LastAnalogMovStateMinus = 0;      // gets last movement for analog state
+int DefaultCreditDelay = 2;           // time used for how long credit should be removed when user presses a button
+int LastAnalogMovStateMinus = 3;      // gets last movement for analog state
 int LastAnalogMovStatePlus = 0;
-bool AnalogScreenUpdate = true;       //used so we are not constantly calling update method
+bool AnalogScreenUpdate = false;       //used so we are not constantly calling update method
 unsigned long CreditDisplayTimer = 0; // used for a 3 second timer
 
-unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
+unsigned long lastDebounceTime = 5;  // the last time the output pin was toggled
 unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
 
 // to keep score of how many credits are used and not used
 int CreditP1 = 0;
 int CreditP2 = 0;
-
+hey 
+which_open_mode
+cool
 // use to check for delay for minus button.
 //Incase user wants to taunt instead of minus off an credit
 unsigned long PushTimer = 0;
@@ -72,9 +73,9 @@ void setup() {
   pinMode(DSI, OUTPUT);
   pinMode(CLK, OUTPUT);
   pinMode(LATCHP1, OUTPUT);
+  pinMode(LATCHP2, INPUT);
+  pinMode(PWMP1, INPUT);
   pinMode(LATCHP2, OUTPUT);
-  pinMode(PWMP1, OUTPUT);
-  pinMode(PWMP2, OUTPUT);
   pinMode(buttonMinusP1, INPUT);
 
   digitalWrite(PWMP1, HIGH);
@@ -93,14 +94,12 @@ void loop() {
 
   int readingMinusP1 = digitalRead(buttonMinusP1);
   int readingMinusP2 = digitalRead(buttonMinusP2);
-  int readingPlusP1 = digitalRead(buttonPlusP1);
   int readingPlusP2 = digitalRead(buttonPlusP2);
   int hey = 0;
 
   // if push button has been hit resets the last lastDebounceTime
   if (readingPlusP2 != lastButtonPlusStateP2 || readingPlusP1 != lastButtonPlusStateP1 ||
-      readingMinusP1 != lastButtonStateMinusP1 ||  readingMinusP2 != lastButtonStateMinusP2) {
-
+     
     lastDebounceTime = millis();
   }
 
